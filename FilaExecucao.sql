@@ -1,6 +1,3 @@
--- Questıes sobre desenvolvimento SQL e conceitos
-
-
 -- Criando a tabela FilaExecucao
 CREATE TABLE FilaExecucao (
     ID INT IDENTITY(1,1) PRIMARY KEY,
@@ -22,14 +19,14 @@ BEGIN
 END;
 
 
--- Criando stored procedure ExecutarTarefas utilizando execuÁ„o em lote (padr„o 5), tabela tempor·ria e bloqueio de linhas
+-- Criando stored procedure ExecutarTarefas utilizando execu√ß√£o em lote (padr√£o 5), tabela tempor√°ria e bloqueio de linhas
 CREATE PROCEDURE ExecutarTarefas
     @BatchSize INT = 5
 AS
 BEGIN
     SET NOCOUNT ON;
 
-    -- Cria tabela tempor·ria para armazenar tarefas selecionadas
+    -- Cria tabela tempor√°ria para armazenar tarefas selecionadas
     CREATE TABLE #ExecucaoTemp (
         ID INT,
         NomeTarefa VARCHAR(100)
@@ -62,10 +59,10 @@ BEGIN
     BEGIN
         BEGIN TRY
             PRINT 'Executando tarefa: ' + @NomeTarefa;
-            WAITFOR DELAY '00:00:02'; -- simulaÁ„o
+            WAITFOR DELAY '00:00:02'; -- simula√ß√£o
 
             UPDATE FilaExecucao
-            SET Status = 'ConcluÌda',
+            SET Status = 'Conclu√≠da',
                 DataFim = GETDATE()
             WHERE ID = @ID;
         END TRY
@@ -91,7 +88,7 @@ EXEC AdicionarTarefa @NomeTarefa = 'Processar Pedido #101';
 EXEC AdicionarTarefa @NomeTarefa = 'Enviar Email #101';
 EXEC AdicionarTarefa @NomeTarefa = 'Gerar Nota Fiscal #101';
 
--- Executando em paralelo (simulaÁ„o)
+-- Executando em paralelo (simula√ß√£o)
 EXEC ExecutarTarefas @BatchSize = 2;
 EXEC ExecutarTarefas @BatchSize = 2;
 
